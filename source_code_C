@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Định nghĩa cấu trúc của một nút trong cây nhị phân
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+// Tạo một nút mới
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Chèn một nút vào cây nhị phân
+struct Node* insertNode(struct Node* root, int data) {
+    if (root == NULL) {
+        return createNode(data);
+    }
+    if (data < root->data) {
+        root->left = insertNode(root->left, data);
+    } else if (data > root->data) {
+        root->right = insertNode(root->right, data);
+    }
+    return root;
+}
+
+// Duyệt cây theo thứ tự trước (NLR)
+void preorderTraversal(struct Node* root) {
+    if (root != NULL) {
+        printf("%d ", root->data);
+        preorderTraversal(root->left);
+        preorderTraversal(root->right);
+    }
+}
+
+// Hàm chính
+int main() {
+    struct Node* root = NULL;
+    int n, data;
+
+    printf("Nhập số lượng phần tử: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        printf("Nhập giá trị phần tử thứ %d: ", i + 1);
+        scanf("%d", &data);
+        root = insertNode(root, data);
+    }
+
+    printf("Cây nhị phân theo thứ tự trước (NLR): ");
+    preorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
